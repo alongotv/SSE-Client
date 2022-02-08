@@ -8,6 +8,15 @@ plugins {
 android {
     compileSdk 31
 
+    buildFeatures {
+        compose true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion '1.2.0-alpha02'
+        kotlinCompilerVersion '1.6.10'
+    }
+
     defaultConfig {
         applicationId "com.alongo.screenovatetest"
         minSdk 23
@@ -43,6 +52,8 @@ dependencies {
 
     // region Compose
     implementation "androidx.compose.ui:ui:1.2.0-alpha02"
+    implementation "androidx.compose.material:material:1.2.0-alpha02"
+    implementation "androidx.compose.ui:ui-tooling-preview:1.2.0-alpha02"
     // endregion
 
     // region Coroutines
