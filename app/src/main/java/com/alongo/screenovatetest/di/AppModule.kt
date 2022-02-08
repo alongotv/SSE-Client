@@ -1,6 +1,7 @@
 package com.alongo.screenovatetest.di
 
 import com.alongo.screenovatetest.BuildConfig
+import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -26,4 +27,9 @@ class AppModule {
     @Provides
     fun provideSseFactory(httpClient: OkHttpClient): EventSource.Factory =
         EventSources.createFactory(httpClient)
+
+    @Provides
+    fun provideGson(): Gson {
+        return Gson().newBuilder().setLenient().create()
+    }
 }
