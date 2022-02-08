@@ -32,6 +32,7 @@ class PaymentApiImpl @Inject constructor(
         sseFactory.newEventSource(httpRequest, sseClient.eventSourceListener)
 
         return sseClient.source.filter {
+            // Makes sure no messages other than data payloads pass through
             it is SseMessage.Message && it.type == null
         }.map { message ->
             when (message) {
