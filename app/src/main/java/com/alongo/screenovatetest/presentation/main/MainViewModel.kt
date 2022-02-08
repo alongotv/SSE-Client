@@ -1,5 +1,6 @@
 package com.alongo.screenovatetest.presentation.main
 
+import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alongo.screenovatetest.data.networking.payment.PaymentApi
@@ -13,26 +14,26 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 
 @HiltViewModel
-class MainViewModel @Inject constructor(private val paymentApi: PaymentApi): ViewModel() {
+class MainViewModel @Inject constructor(private val paymentApi: PaymentApi) : ViewModel() {
 
-    var payments: MutableList<Payment> = mutableListOf()
+    val payments = mutableStateListOf<Payment>()
 
     fun loadPayments() {
         subscribeToPayments()
-        payments = mutableListOf(Payment("", "", 10.0), Payment("", "", 20.0), Payment("", "", 30.0))
     }
 
     private fun subscribeToPayments() {
         viewModelScope.launch {
             while (isActive) {
                 paymentApi.getPayments().collect {
-                    payments.add(it)
+                    payments.toMutableList().add(it)
                     Timber.i(it.toString())
                 }
                 delay(paymentLoadingDelayMillis)
             }
         }
     }
+
     companion object {
         const val paymentLoadingDelayMillis = 5000L
     }
