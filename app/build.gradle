@@ -40,7 +40,13 @@ dependencies {
 
     // region Coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2'
+    // endregion
+
+    // region OkHttp
+    implementation 'com.squareup.okhttp3:okhttp:4.9.3'
+    implementation 'com.squareup.okhttp3:okhttp-sse:4.9.3'
+    implementation "com.squareup.okhttp3:logging-interceptor:4.9.0"
     // endregion
 
     testImplementation 'junit:junit:4.13.2'
