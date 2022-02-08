@@ -13,7 +13,7 @@ import timber.log.Timber
 class SseClient {
 
     val source = MutableStateFlow<SseMessage>(SseMessage.Closed)
-    val clientScope = CoroutineScope(Dispatchers.IO)
+    val clientScope = CoroutineScope(Dispatchers.Main)
 
     val eventSourceListener = object : EventSourceListener() {
         override fun onClosed(eventSource: EventSource) {
