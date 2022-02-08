@@ -7,10 +7,13 @@ import com.alongo.screenovatetest.data.networking.payment.PaymentApi
 import com.alongo.screenovatetest.domain.entity.Payment
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 
 @HiltViewModel
@@ -18,23 +21,31 @@ class MainViewModel @Inject constructor(private val paymentApi: PaymentApi) : Vi
 
     val payments = mutableStateListOf<Payment>()
 
-    fun loadPayments() {
-        subscribeToPayments()
-    }
+    private var paymentJob: Job? = null
 
-    private fun subscribeToPayments() {
+    fun loadPayments() {
         viewModelScope.launch {
             while (isActive) {
-                paymentApi.getPayments().collect {
-                    payments.toMutableList().add(it)
-                    Timber.i(it.toString())
-                }
+                paymentJob?.cancel()
+                payments.clear()
+                subscribeToPayments()
                 delay(paymentLoadingDelayMillis)
             }
         }
     }
 
+    private fun subscribeToPayments() {
+        paymentJob = viewModelScope.launch {
+            paymentApi.getPayments().collect {
+                withContext(Dispatchers.Main) {
+                    payments.add(it)
+                }
+                Timber.i(it.toString())
+            }
+        }
+    }
+
     companion object {
-        const val paymentLoadingDelayMillis = 5000L
+        const val paymentLoadingDelayMillis = 10000L
     }
 }
