@@ -1,5 +1,6 @@
 package com.alongo.screenovatetest.data.networking
 
+import com.alongo.screenovatetest.data.entity.error.UnknownException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -34,7 +35,7 @@ class SseClient {
 
         override fun onFailure(eventSource: EventSource, t: Throwable?, response: Response?) {
             super.onFailure(eventSource, t, response)
-            val error = t ?: UnknownError()
+            val error = t ?: UnknownException()
             clientScope.launch { source.emit(SseMessage.Failure(error)) }
             Timber.e("$response: $t")
         }
