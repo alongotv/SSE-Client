@@ -5,13 +5,14 @@ import com.alongo.screenovatetest.data.networking.SseClient
 import com.alongo.screenovatetest.data.networking.SseMessage
 import com.alongo.screenovatetest.domain.entity.Payment
 import java.lang.IllegalArgumentException
+import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import okhttp3.Request
 import okhttp3.sse.EventSource
 
-class PaymentApiImpl(
+class PaymentApiImpl @Inject constructor(
     private val sseFactory: EventSource.Factory,
     private val sseClient: SseClient
 ) : PaymentApi {
