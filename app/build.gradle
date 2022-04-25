@@ -18,7 +18,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.alongo.screenovatetest"
+        applicationId "com.alongo.ssetest"
         minSdk 23
         targetSdk 31
         versionCode 1
